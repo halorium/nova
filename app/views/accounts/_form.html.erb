@@ -11,10 +11,22 @@
     </div>
   <% end %>
 
+<p>Account</p>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+
+<p>Contact</p>
+  <div class="field">
+	<%= fields_for @contact do |c| %>
+    <%= c.label :last_name %><br />
+    <%= c.text_field :last_name %>
+	<% end %>
+  </div>
+
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
