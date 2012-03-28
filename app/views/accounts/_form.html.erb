@@ -13,15 +13,47 @@
 
 <p>Account</p>
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.label "學校/單位 (School/Org)" %>
+    <%= f.text_field :name %><br />
   </div>
 
 <p>Contact</p>
   <div class="field">
 	<%= fields_for @contact do |c| %>
-    <%= c.label :last_name %><br />
-    <%= c.text_field :last_name %>
+
+	<%= c.label :salutation %>
+    <%= c.text_field :salutation %><br />
+
+	<%= c.label "英文名字 (Eng Last name)" %>
+    <%= c.text_field :last_name %><br />
+
+    <%= c.label "完整中文名稱 (Ch name)" %>
+    <%= c.text_field :cntc_chinese_name_c  %><br />
+
+	<%= c.label "電子信箱 (Email)" %>
+	<%= c.text_field :email1 %><br />
+
+	<%= c.label "聯絡手機 (Mobile phone) " %>
+	<%= c.text_field :phone_mobile %><br />
+
+	<%= c.label "聯絡電話1 (Home Phone)" %>
+	<%= c.text_field :phone_home %><br />
+
+	<%= c.label "聯絡電話2 (Work Phone)" %>
+	<%= c.text_field :phone_work %><br />
+
+	<%= c.label "聯絡電話3 (Other Phone)" %>
+	<%= c.text_field :phone_other %><br />
+
+	<%= c.label "系所/部門 (Department)" %>
+	<%= c.text_field :department %><br />
+
+	<%= c.label "職稱 (Title)" %>
+	<%= c.text_field :title %><br />
+
+	<%= c.label "得知管道 (Where did you hear about us?)" %>
+	<%= c.text_field :lead_source %><br />
+
 	<% end %>
   </div>
 
