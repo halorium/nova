@@ -13,7 +13,7 @@ class AccountsController < ApplicationController
   # GET /accounts/new
   def new
     @account = Account.new
-    @contact = SugarCRM::Contact.new
+    @contact = Contact.new
   end
 
   # GET /accounts/1/edit
@@ -23,14 +23,15 @@ class AccountsController < ApplicationController
 
   # POST /accounts
   def create
-    @account = Account.new(params[:account])
+    @account = SugarCRM::Account.new(params[:account])
 
     @contact = SugarCRM::Contact.new(params[:contact])
 
-      if @account.save
+
+      if @account.save!
         
-        contact = @account.contacts.add(@contact)
-        contact.save
+        @account.contacts << @contact
+        @account.contacts.save
         
         redirect_to @account, notice: 'Account was successfully created.'
       else
