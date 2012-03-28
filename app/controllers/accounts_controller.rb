@@ -24,35 +24,37 @@ class AccountsController < ApplicationController
 
   # POST /accounts
   def create
-    @account = SugarCRM::Account.new(params[:account])
-
+    duped = params[:account].dup
+    duped.delete :my_file
+    
+    #render :text => params.inspect
+    #render :text => duped
+    #return
+    
+    @account = SugarCRM::Account.new(duped)
     @contact = SugarCRM::Contact.new(params[:contact])
 
-    #@doc1 = :document.doc1
+    file = params[:account][:my_file]
 
-      if @account.save!
+    if @account.save!
         
-        @account.contacts << @contact
-        @account.contacts.save
+      @account.contacts << @contact
+      @account.contacts.save
         
-        def doc1
-        # Create a document instance and upload a file
-        #file = File.read(File.join(File.dirname(__FILE__),"test_excel.xls"))
-        doc = SugarCRM::Document.new
-        file = File.read(document.doc1)
-        doc.active_date = Date.today
-        doc.document_name = document.doc1.original_filename
-        doc.filename = document.doc1.original_filename
-        doc.revision = 0
-        doc.uploadfile = SugarCRM.connection.b64_encode(file)
-        doc.save!
-        end
-        
-        redirect_to @account, notice: 'Account was successfully created.'
-      else
-        render action: "new"
-      end
-
+      # Create a document instance and upload a file
+      @doc = SugarCRM::Document.new
+      @doc.active_date = Date.today
+      @doc.document_name = file.original_filename
+      @doc.filename = file.original_filename
+      @doc.revision = 0
+      @doc.save!
+      
+      SugarCRM.connection.set_document_revision(@doc.id, @doc.revision + 1, {:file => file.read, :file_name => file.original_filename})
+      
+      redirect_to @account, notice: 'Account was successfully created.'
+    else
+      render action: "new"
+    end
   end
 
   # PUT /accounts/1

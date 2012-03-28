@@ -1,0 +1,48 @@
+Installation
+------------
+Please review this document and the RELEASE document prior to installing OJS.
+If you encounter problems, please also see the FAQ document in this directory.
+
+To install OJS:
+
+        1. Extract the OJS archive to the desired location in your web
+           documents directory.
+
+        2. Make the following files and directories (and their contents)
+           writeable (i.e., by changing the owner or permissions with chown or
+           chmod):
+
+             * config.inc.php (optional -- if not writable you will be prompted
+               to manually overwrite this file during installation)
+             * public
+             * cache
+             * cache/t_cache
+             * cache/t_config
+             * cache/t_compile
+             * cache/_db
+
+        3. Create a directory to store uploaded files (submission files, etc.)
+           and make this directory writeable. It is recommended that this
+           directory be placed in a non-web-accessible location (or otherwise
+           protected from direct access, such as via .htaccess rules).
+
+        4. Review and apply the patches recommended for your version of OJS.
+
+           Starting with OJS version 2.3.3-2, the Public Knowledge Project
+           development team maintains a publicly-available list of recommended
+           patches for each release. These will add no new functionality and
+           will typically consist of small, easy-to-read patches for specific
+           issues. A Recommended Patches list for your version of OJS  can
+           be found on the PKP development wiki:
+
+               <http://pkp.sfu.ca/wiki/index.php/OJS_Recommended_Patches>
+
+           To apply a recommended patch, open the bug report and download the
+           attached patch file(s). (Note that bug reports can quite often include
+           a number of patches, some relevant to the application (ie. OJS) and
+           version you are running, and some not. Ensure that you download all
+           and only the patches specific to your application and version.) For
+           each patch you download, first attempt a dry-run application of the
+           patch, to ensure that it applies cleanly:
+
+               $ patch -p1 --dry-run < PATCH_FILE

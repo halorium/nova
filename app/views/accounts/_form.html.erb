@@ -64,12 +64,8 @@
 
   <p>Documents</p>
   <div class="field">
-	<%= fields_for :document do |d| %>
-	
-    <%= d.label "(Document 1)" %>
-    <%= d.file_field :doc1 %><br />
-
-	<% end %>
+    <%= f.label "(Document 1)" %>
+    <%= f.file_field :my_file %><br />
   </div>
 
 
