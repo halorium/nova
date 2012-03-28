@@ -15,6 +15,10 @@
   <div class="field">
     <%= f.label "學校/單位 (School/Org)" %>
     <%= f.text_field :name %><br />
+
+    <%= f.hidden_field :internal_type_c, :value => 'Editing' %><br />
+	
+	
   </div>
 
 <p>Contact</p>
@@ -49,14 +53,24 @@
 	<%= c.text_field :department %><br />
 
 	<%= c.label "職稱 (Title)" %>
-	<%= c.text_field :title %><br />
+	<%= c.select :title, options_for_select(["Professor", "Asst. Professor"]) %><br />
 
 	<%= c.label "得知管道 (Where did you hear about us?)" %>
-	<%= c.text_field :lead_source %><br />
+	<%= c.select :lead_source, options_for_select(["Web", "Friend"]) %><br />
 
 	<% end %>
   </div>
 
+
+  <p>Documents</p>
+  <div class="field">
+	<%= fields_for :document do |d| %>
+	
+    <%= d.label "(Document 1)" %>
+    <%= d.file_field :doc1 %><br />
+
+	<% end %>
+  </div>
 
 
   <div class="actions">
