@@ -1,3 +1,16 @@
+#<SugarCRM::Namespace0::Association @proxy_methods=[edt_editingjects_contacts, edt_editingprojects], @link_field="edt_editingjects_contacts", 
+@target=false, 
+@owner=SugarCRM::Namespace0::Contact, 
+@cardinality=:many_to_many>,
+
+
+#<SugarCRM::Namespace0::Association 
+@proxy_methods=[accounts], 
+@link_field="accounts", 
+@target=SugarCRM::Namespace0::Account, @owner=SugarCRM::Namespace0::Contact, 
+@cardinality=:many_to_many>,
+
+
 == Welcome to Rails
 
 Rails is a web-application framework that includes everything needed to create
