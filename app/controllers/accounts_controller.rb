@@ -2,7 +2,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def index
-    @accounts = Account.all(:limit => 10)
+    @accounts = Account.all(:limit => 10, :order_by => "date_entered DESC")
   end
 
   # GET /accounts/1
@@ -28,56 +28,53 @@ class AccountsController < ApplicationController
     #render :text => duped
     #return
     
-    # Create a copy of account and remove file element
+    # Create a copy of account and remove file elements
     duped = params[:account].dup
     duped.delete :my_file
+    duped.delete :my_file2
+    duped.delete :my_file3
     
-    # Set and save the account or end
-    @account = SugarCRM::Account.new(duped)
-    unless @account.save!
-      flash.now[:error] = "Account was not saved."
-      render action: "new"
-      return
-    end
+    # Create the account
+    @account = SugarCRM::Account.create(duped)
+        
+    # Create the contact
+    @contact = SugarCRM::Contact.create(params[:contact])
     
-    # Set and save the contact or end
-    @contact = SugarCRM::Contact.new(params[:contact])
-    @account.contacts << @contact
-    unless @account.contacts.save
-      flash.now[:error] = "Contact was not saved."
-      render action: "new"
-      return
-    end
+    # Associate Account and Contact
+    @account.associate!(@contact)
+        
+    # Create the Editing Project
+    @eproject = SugarCRM::EDTEditingproject.create(:name => "LH999")
     
-    # Set and save the project or end
-    @project = SugarCRM::EDTEditingproject.new(:name => "LH999")
-    @contact.EDTEditingprojects << @project
-    unless @contact.EDTEditingprojects.save
-      flash.now[:error] = "Project was not saved."
-      render action: "new"
-      return
-    end
-
+    # Associate Editing Project to Account and Contact
+    @eproject.associate!(@contact)
+    @eproject.associate!(@account)
+    
+    # Associate the Project and Contact
+    #unless @contact.associate!(@eproject)
+    #  flash.now[:error] = "Project was not associated to contact."
+    #  render action: "new"
+    #  return
+    #end
+    
     # Set the file variable
-    file = params[:account][:my_file]
+    @files = [params[:account][:my_file], params[:account][:my_file2], params[:account][:my_file3]]
+    #file = params[:account][:my_file]
     
     # Create a document instance
-    @doc = SugarCRM::Document.new
-    @doc.active_date = Date.today
-    @doc.document_name = file.original_filename
-    @doc.filename = file.original_filename
-    @doc.revision = 0
-    unless @doc.save!
-      flash.now[:error] = "Document was not saved."
-      render action: "new"
-      return
-    end
+    @files.each do |file|
+      @doc = SugarCRM::Document.new
+      @doc.active_date = Date.today
+      @doc.document_name = file.original_filename
+      @doc.filename = file.original_filename
+      @doc.revision = 0    unless @doc.save!
+      
+      # Uplaod the document
+      SugarCRM.connection.set_document_revision(@doc.id, @doc.revision + 1, {:file => file.read, :file_name => file.original_filename})
 
-    # Uplaod the document
-    unless SugarCRM.connection.set_document_revision(@doc.id, @doc.revision + 1, {:file => file.read, :file_name => file.original_filename})
-      flash.now[:error] = "Document was not uploaded."
-      render action: "new"
-      return
+      # Relate document to project      
+      @doc.associate!(@eproject)
+      @doc.associate!(@contact)
     end
       
     redirect_to @account, notice: 'Account was successfully created.'
