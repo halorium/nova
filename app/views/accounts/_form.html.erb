@@ -53,7 +53,7 @@
 	<%= c.text_field :department %><br />
 
 	<%= c.label "職稱 (Title)" %>
-	<%= c.select :title, options_for_select(["Professor", "Asst. Professor"]) %><br />
+	<%= c.select :title, options_for_select(@typeops) %><br />
 
 	<%= c.label "得知管道 (Where did you hear about us?)" %>
 	<%= c.select :lead_source, options_for_select(["Email", "Other"]) %><br />

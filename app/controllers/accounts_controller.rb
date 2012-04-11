@@ -1,5 +1,7 @@
 class AccountsController < ApplicationController
 
+require 'pry'
+
   # GET /accounts
   def index
     @accounts = Account.all(:limit => 10, :order_by => "date_entered DESC")
@@ -14,6 +16,23 @@ class AccountsController < ApplicationController
   def new
     @account = Account.new
     @contact = Contact.new
+    
+    # Get dropdown fields
+    fields = SugarCRM.connection.get_module_fields("Accounts")
+    myf = fields["module_fields"]
+    type = myf["account_type"]
+    @typeops = type["options"]
+    
+#    typeops.each do |f|
+#      f.each do |a|
+#        puts a["name"]
+#        puts a["value"]
+#        puts "---"
+#      end  
+#    end  
+    
+    
+    
   end
 
   # GET /accounts/1/edit
@@ -58,16 +77,26 @@ class AccountsController < ApplicationController
     #end
     
     # Set the file variable
-    @files = [params[:account][:my_file], params[:account][:my_file2], params[:account][:my_file3]]
+    @files = [params[:account][:my_file]]
+    
+    unless params[:account][:my_file2].nil?
+      @files << params[:account][:my_file2]
+    end
+    
+    unless params[:account][:my_file3].nil?
+      @files << params[:account][:my_file3]
+    end
     #file = params[:account][:my_file]
     
     # Create a document instance
     @files.each do |file|
+      binding.pry
       @doc = SugarCRM::Document.new
       @doc.active_date = Date.today
       @doc.document_name = file.original_filename
       @doc.filename = file.original_filename
-      @doc.revision = 0    unless @doc.save!
+      @doc.revision = 0
+      @doc.save!
       
       # Uplaod the document
       SugarCRM.connection.set_document_revision(@doc.id, @doc.revision + 1, {:file => file.read, :file_name => file.original_filename})
