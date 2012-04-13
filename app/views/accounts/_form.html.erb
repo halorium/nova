@@ -26,7 +26,7 @@
 	<%= fields_for @contact do |c| %>
 
 	<%= c.label :salutation %>
-    <%= c.text_field :salutation %><br />
+    <%= c.select :salutation, options_for_select(@fields["salutation"]) %><br />
 
 	<%= c.label "英文名字 (Eng Last name)" %>
     <%= c.text_field :last_name %><br />
@@ -53,10 +53,16 @@
 	<%= c.text_field :department %><br />
 
 	<%= c.label "職稱 (Title)" %>
-	<%= c.select :title, options_for_select(@typeops) %><br />
+	<%= c.select :title, options_for_select(["教授 (Professor)",
+	                    "副教授 (Associate Professor)",
+	                    "助理教授 (Assistant Professor)",
+	                    "講師 (Lecturer)",
+	                    "博士/博士生 (Doctor or PhD Student)",
+	                    "碩士/碩士生 (Master/Master's Student)",
+	                    "其他 (Other)"]) %><br />
 
 	<%= c.label "得知管道 (Where did you hear about us?)" %>
-	<%= c.select :lead_source, options_for_select(["Email", "Other"]) %><br />
+	<%= c.select :lead_source, options_for_select(@fields["lead_source"]) %><br />
 
 	<% end %>
   </div>

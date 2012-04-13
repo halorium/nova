@@ -18,20 +18,22 @@ require 'pry'
     @contact = Contact.new
     
     # Get dropdown fields
-    fields = SugarCRM.connection.get_module_fields("Accounts")
-    myf = fields["module_fields"]
-    type = myf["account_type"]
-    @typeops = type["options"]
-    
-#    typeops.each do |f|
-#      f.each do |a|
-#        puts a["name"]
-#        puts a["value"]
-#        puts "---"
-#      end  
-#    end  
-    
-    
+    contact_fields = SugarCRM.connection.get_fields("Contacts")["module_fields"]
+    salutation = []
+    lead_source = []
+
+    salutation_options = contact_fields["salutation"]["options"]
+    lead_options = contact_fields["lead_source"]["options"]
+
+    salutation_options.each do |o|
+      salutation << [o[1]["name"], o[1]["value"]]
+    end
+
+    lead_options.each do |o|
+      lead_source << [o[1]["name"], o[1]["value"]]
+    end
+
+    @fields = {"salutation" => salutation, "lead_source" => lead_source}
     
   end
 
