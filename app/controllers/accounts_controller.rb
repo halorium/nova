@@ -56,16 +56,18 @@ require 'pry'
     duped.delete :my_file3
     
     # Create the account
-    @account = SugarCRM::Account.create(duped)
-        
+    @account = SugarCRM::Account.new(duped)
+    
+    
     # Create the contact
-    @contact = SugarCRM::Contact.create(params[:contact])
+    @contact = SugarCRM::Contact.new(params[:contact])
+    
     
     # Associate Account and Contact
     @account.associate!(@contact)
         
     # Create the Editing Project
-    @eproject = SugarCRM::EDTEditingproject.create(:name => "LH999")
+    @eproject = SugarCRM::EDTEditingproject.new(:name => "LH999")
     
     # Associate Editing Project to Account and Contact
     @eproject.associate!(@contact)
@@ -77,6 +79,53 @@ require 'pry'
     #  render action: "new"
     #  return
     #end
+    
+    
+    # Verify required attributes
+
+    if @account.name.blank?
+      error = {"School/Org"=>["cannot be blank"]}
+      @account.errors = @account.errors.merge error
+    end
+    
+    if @contact.last_name.blank?
+      error = {"Eng Last name"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.cntc_chinese_name_c.blank?
+      error = {"Ch name"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.email1.blank?
+      error = {"Email"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.phone_mobile.blank?
+      error = {"Mobile phone"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.department.blank?
+      error = {"Department"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.title.blank?
+      error = {"Title"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    if @contact.lead_source.blank?
+      error = {"Where did you hear about us?"=>["cannot be blank"]}
+      @contact.errors = @contact.errors.merge error
+    end
+    
+    # Merge Account & Contact Errors
+    @account.errors = @account.errors.merge @contact.errors
+    
     
     # Set the file variable
     @files = [params[:account][:my_file]]
@@ -90,9 +139,47 @@ require 'pry'
     end
     #file = params[:account][:my_file]
     
+    
+    # Document Errors
+    if @files.blank?
+      error = {"Document 1"=>["cannot be blank"]}
+      
+      # Merge Document error and Account errors
+      @account.errors = @account.errors.merge error
+    end
+    
+    # If any errors, return to form
+    if @account.errors
+      
+      # Get dropdown fields
+      contact_fields = SugarCRM.connection.get_fields("Contacts")["module_fields"]
+      salutation = []
+      lead_source = []
+
+      salutation_options = contact_fields["salutation"]["options"]
+      lead_options = contact_fields["lead_source"]["options"]
+
+      salutation_options.each do |o|
+        salutation << [o[1]["name"], o[1]["value"]]
+      end
+
+      lead_options.each do |o|
+        lead_source << [o[1]["name"], o[1]["value"]]
+      end
+
+      @fields = {"salutation" => salutation, "lead_source" => lead_source}
+      
+      render action: "new"
+      return
+    end
+    
+    # If no errors then Save all objects
+    @account.save
+    @contact.save
+    @eproject.save
+    
     # Create a document instance
     @files.each do |file|
-      binding.pry
       @doc = SugarCRM::Document.new
       @doc.active_date = Date.today
       @doc.document_name = file.original_filename
@@ -107,6 +194,9 @@ require 'pry'
       @doc.associate!(@eproject)
       @doc.associate!(@contact)
     end
+      
+    
+      
       
     redirect_to @account, notice: 'Account was successfully created.'
   end
