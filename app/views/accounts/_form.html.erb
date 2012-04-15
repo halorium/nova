@@ -2,7 +2,6 @@
   <% if @account.errors.any? %>
     <div id="error_explanation">
       <h2><%= @account.errors.count %> error(s) prohibited this account from being saved:</h2>
-
       <ul>
       <% @account.errors.each do |msg| %>
         <li><%= msg[0] %> <%= msg[1][0] %></li>
@@ -17,8 +16,6 @@
     <%= f.text_field :name %><br />
 
     <%= f.hidden_field :internal_type_c, :value => 'Editing' %><br />
-	
-	
   </div>
 
 <p>Contact</p>
@@ -78,6 +75,10 @@
     <%= f.file_field :my_file3 %><br />
   </div>
 
+  <p>Captcha</p>
+  <div class="captcha">
+	<%= recaptcha_tags %>
+  </div>
 
   <div class="actions">
     <%= f.submit %>

@@ -55,23 +55,15 @@ require 'pry'
     duped.delete :my_file2
     duped.delete :my_file3
     
-    # Create the account
+    # Create the account object
     @account = SugarCRM::Account.new(duped)
     
-    
-    # Create the contact
+    # Create the contact object
     @contact = SugarCRM::Contact.new(params[:contact])
-    
-    
-    # Associate Account and Contact
-    @account.associate!(@contact)
         
     # Create the Editing Project
     @eproject = SugarCRM::EDTEditingproject.new(:name => "LH999")
     
-    # Associate Editing Project to Account and Contact
-    @eproject.associate!(@contact)
-    @eproject.associate!(@account)
     
     # Associate the Project and Contact
     #unless @contact.associate!(@eproject)
@@ -128,7 +120,11 @@ require 'pry'
     
     
     # Set the file variable
-    @files = [params[:account][:my_file]]
+    @files = []
+    
+    unless params[:account][:my_file].nil?
+      @files << params[:account][:my_file]
+    end
     
     unless params[:account][:my_file2].nil?
       @files << params[:account][:my_file2]
@@ -148,8 +144,15 @@ require 'pry'
       @account.errors = @account.errors.merge error
     end
     
+    # Check recaptcha
+    unless verify_recaptcha
+      #captcha is invalid      
+      error = {"Captcha"=>["invalid."]}
+      @account.errors = @account.errors.merge error
+    end
+    
     # If any errors, return to form
-    if @account.errors
+    if @account.errors.any?
       
       # Get dropdown fields
       contact_fields = SugarCRM.connection.get_fields("Contacts")["module_fields"]
@@ -173,10 +176,19 @@ require 'pry'
       return
     end
     
+    
+    
     # If no errors then Save all objects
     @account.save
     @contact.save
     @eproject.save
+    
+    # Associate Account and Contact
+    @account.associate!(@contact)
+
+    # Associate Editing Project to Account and Contact
+    @eproject.associate!(@contact)
+    @eproject.associate!(@account)
     
     # Create a document instance
     @files.each do |file|
@@ -190,14 +202,11 @@ require 'pry'
       # Uplaod the document
       SugarCRM.connection.set_document_revision(@doc.id, @doc.revision + 1, {:file => file.read, :file_name => file.original_filename})
 
-      # Relate document to project      
+      # Associate Document to project      
       @doc.associate!(@eproject)
       @doc.associate!(@contact)
     end
-      
-    
-      
-      
+
     redirect_to @account, notice: 'Account was successfully created.'
   end
 

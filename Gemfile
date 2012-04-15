@@ -5,6 +5,8 @@ gem 'sugarcrm', :git => 'git://github.com/chicks/sugarcrm.git'
 
 gem 'pry', :group => :development
 
+gem 'recaptcha', :require => 'recaptcha/rails'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
