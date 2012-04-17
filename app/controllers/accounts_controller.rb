@@ -60,10 +60,12 @@ require 'pry'
     
     # Create the contact object
     @contact = SugarCRM::Contact.new(params[:contact])
-        
-    # Create the Editing Project
-    @eproject = SugarCRM::EDTEditingproject.new(:name => "LH999")
     
+    # Create the Editing Project
+    @eproject = SugarCRM::EDTEditingproject.new(
+    :autoid => SugarCRM::EDTEditingproject.last.autoid.next,
+    :name => "TR-#{SugarCRM::EDTEditingproject.last.autoid.next}",
+    :status => "Editing")
     
     # Associate the Project and Contact
     #unless @contact.associate!(@eproject)
@@ -185,6 +187,11 @@ require 'pry'
     
     # Associate Account and Contact
     @account.associate!(@contact)
+
+    # Set the Project Contact field values
+    @eproject.contact_id_c = @contact.id
+    @eproject.contact = @contact.last_name
+    @eproject.save
 
     # Associate Editing Project to Account and Contact
     @eproject.associate!(@contact)

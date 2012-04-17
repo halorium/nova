@@ -13,8 +13,11 @@ module SugarCRM
       
       myclass = SugarCRM::EDTEditingproject.new.class
       return true if attribute.class == myclass && link_field == "edt_editingjects_accounts" && @target == false
+      return true if attribute.class == myclass && link_field == "edt_editingprojects_accounts" && @target == false
       return true if attribute.class == myclass && link_field == "edt_editingjects_contacts" && @target == false
+      return true if attribute.class == myclass && link_field == "edt_editingprojects_contacts" && @target == false
       return true if attribute.class == myclass && link_field == "edt_editingects_documents" && @target == false
+      return true if attribute.class == myclass && link_field == "edt_editingprojects_documents" && @target == false
       false
     end
   end

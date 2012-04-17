@@ -1,8 +1,8 @@
-class EDTEditingProject < SugarCRM::EDTEditingProject
+class EDTEditingproject < SugarCRM::EDTEditingproject
 end
 
 SugarCRM::EDTEditingproject.class_eval do
 def self.model_name
-ActiveModel::Name.new(EDTEditingProject)
+ActiveModel::Name.new(EDTEditingproject)
 end
 end
