@@ -1,0 +1,92 @@
+<%= form_for(@trial) do |t| %>
+  <% if @trial.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @trial.errors.count %> error(s) prohibited this trial from being submitted:</h2>
+      <ul>
+      <% @trial.errors.each do |msg| %>
+        <li><%= msg[0] %> <%= msg[1][0] %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p>Account</p>
+  <div class="field">
+	<%= fields_for @account do |a| %>
+    <%= a.label "學校/單位 (School/Org)" %>
+    <%= a.text_field :name %><br />
+
+    <%= a.hidden_field :internal_type_c, :value => 'Editing' %><br />
+	<% end %>
+  </div>
+
+<p>Contact</p>
+  <div class="field">
+	<%= fields_for @contact do |c| %>
+
+	<%= c.label :salutation %>
+    <%= c.select :salutation, options_for_select(@fields["salutation"]) %><br />
+
+	<%= c.label "英文名字 (Eng Last name)" %>
+    <%= c.text_field :last_name %><br />
+
+    <%= c.label "完整中文名稱 (Ch name)" %>
+    <%= c.text_field :cntc_chinese_name_c  %><br />
+
+	<%= c.label "電子信箱 (Email)" %>
+	<%= c.text_field :email1 %><br />
+
+	<%= c.label "聯絡手機 (Mobile phone) " %>
+	<%= c.text_field :phone_mobile %><br />
+
+	<%= c.label "聯絡電話1 (Home Phone)" %>
+	<%= c.text_field :phone_home %><br />
+
+	<%= c.label "聯絡電話2 (Work Phone)" %>
+	<%= c.text_field :phone_work %><br />
+
+	<%= c.label "聯絡電話3 (Other Phone)" %>
+	<%= c.text_field :phone_other %><br />
+
+	<%= c.label "系所/部門 (Department)" %>
+	<%= c.text_field :department %><br />
+
+	<%= c.label "職稱 (Title)" %>
+	<%= c.select :title, options_for_select(["教授 (Professor)",
+	                    "副教授 (Associate Professor)",
+	                    "助理教授 (Assistant Professor)",
+	                    "講師 (Lecturer)",
+	                    "博士/博士生 (Doctor or PhD Student)",
+	                    "碩士/碩士生 (Master/Master's Student)",
+	                    "其他 (Other)"]) %><br />
+
+	<%= c.label "得知管道 (Where did you hear about us?)" %>
+	<%= c.select :lead_source, options_for_select(@fields["lead_source"]) %><br />
+
+	<% end %>
+  </div>
+
+
+  <p>Documents</p>
+  <div class="field">
+	<%= fields_for @files do |f| %>
+	
+    <%= f.label "(Document 1)" %>
+    <%= f.file_field :file1 %><br />
+    <%= f.label "(Document 2)" %>
+    <%= f.file_field :file2 %><br />
+    <%= f.label "(Document 3)" %>
+    <%= f.file_field :file3 %><br />
+
+	<% end %>
+  </div>
+
+  <p>Captcha</p>
+  <div class="captcha">
+	<%= recaptcha_tags %>
+  </div>
+
+  <div class="actions">
+    <%= t.submit %>
+  </div>
+<% end %>
