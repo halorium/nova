@@ -5,7 +5,7 @@ class TrialsController < ApplicationController
     eproject  = Eproject.find(params[:id])
     account   = eproject.accounts.last
     contact   = eproject.contacts.last
-    documents = eproject.documents.last
+    documents = eproject.documents
     @trial = Trial.new.setup account, contact, documents, eproject
   end
 
