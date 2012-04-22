@@ -2,11 +2,11 @@ class TrialsController < ApplicationController
   
   # GET /trials/1
   def show
-    eproject = Eproject.find(params[:id])
-    account  = eproject.accounts.first
-    contact  = eproject.contacts.first
-    documents= eproject.documents.first
-    @trial = Trial.new.setup @account, @contact, @documents, @eproject
+    eproject  = Eproject.find(params[:id])
+    account   = eproject.accounts.last
+    contact   = eproject.contacts.last
+    documents = eproject.documents.last
+    @trial = Trial.new.setup account, contact, documents, eproject
   end
 
 
@@ -47,6 +47,7 @@ class TrialsController < ApplicationController
     # If any errors, return to form
     if @trial.valid?
       @trial.save
+
       redirect_to @trial, notice: 'Trial was successfully created.'
     else
       create_dropdowns

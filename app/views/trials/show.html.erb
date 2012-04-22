@@ -1,6 +1,58 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @trial.inspect %>
-</p>
+<p>Account</p>
+  <div class="field">
+	<b>學校/單位 (School/Org):</b>
+    <%= @trial.account.name %><br />
+  </div>
+
+<p>Contact</p>
+  <div class="field">
+	<b>Salutation:</b>
+    <%= @trial.contact.salutation %><br />
+	
+	<b>英文名字 (Eng Last name):</b>
+    <%= @trial.contact.last_name %><br />
+
+	<b>完整中文名稱 (Ch name):</b>
+    <%= @trial.contact.cntc_chinese_name_c  %><br />
+	
+	<b>電子信箱 (Email):</b>
+	<%= @trial.contact.email1 %><br />
+
+	<b>聯絡手機 (Mobile phone):</b>
+	<%= @trial.contact.phone_mobile %><br />
+
+	<b>聯絡電話1 (Home Phone):</b>
+	<%= @trial.contact.phone_home %><br />
+
+	<b>聯絡電話2 (Work Phone):</b>
+	<%= @trial.contact.phone_work %><br />
+
+	<b>聯絡電話3 (Other Phone)</b>
+	<%= @trial.contact.phone_other %><br />
+
+	<b>系所/部門 (Department):</b>
+	<%= @trial.contact.department %><br />
+
+	<b>職稱 (Title):</b>
+	<%= @trial.contact.title %><br />
+
+	<b>得知管道 (Where did you hear about us?):</b>
+	<%= @trial.contact.lead_source %><br />
+
+  </div>
+  
+  <p>Project</p>
+  <div>
+	<b>Project:</b>
+	<%= @trial.eproject.name %>
+  </div>
+
+  <p>Documents</p>
+  <div class="field">
+	
+    <b>Document Name</b>
+    <%= @trial.documents.document_name %><br />
+    
+  </div>
