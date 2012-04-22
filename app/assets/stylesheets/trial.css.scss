@@ -2,8 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-form {  
-	border: 1px solid #666699; 
+form { 
 }
 
 td.header {
@@ -33,4 +32,17 @@ td {
 	border-color: #999;
 	border-style: solid;
 	padding: 5px;
+	width: 200px;
+}
+
+td.left {
+	border-right: none;
+}
+
+td.right {
+	border-left: none;
+}
+
+captcha {
+	
 }

@@ -7,60 +7,60 @@
 		<td class="header" colspan=4>個人資訊: 此區皆為必填欄位 (Personal Information)</td>
 	</tr>
 	<tr>
-		<td>Salutation:</td>
-		<td><%= @trial.contact.salutation %></td>
-		<td></td>
-		<td></td>
+		<td class="left">Salutation:</td>
+		<td class="right"><%= @trial.contact.salutation %></td>
+		<td class="left"></td>
+		<td class="right"></td>
 	</tr>
 	<tr>
-		<td>英文名字 (Eng Last name):</td>
-	    <td><%= @trial.contact.last_name %></td>
-		<td>完整中文名稱 (Ch name):</td>
-	    <td><%= @trial.contact.cntc_chinese_name_c  %></td>
+		<td class="left">英文名字 (Eng Last name):</td>
+	    <td class="right"><%= @trial.contact.last_name %></td>
+		<td class="left">完整中文名稱 (Ch name):</td>
+	    <td class="right"><%= @trial.contact.cntc_chinese_name_c  %></td>
 	</tr>
 	<tr>
-		<td>電子信箱 (Email):</td>
-		<td><%= @trial.contact.email1 %></td>
-		<td>聯絡手機 (Mobile phone):</td>
-		<td><%= @trial.contact.phone_mobile %></td>
+		<td class="left">電子信箱 (Email):</td>
+		<td class="right"><%= @trial.contact.email1 %></td>
+		<td class="left">聯絡手機 (Mobile phone):</td>
+		<td class="right"><%= @trial.contact.phone_mobile %></td>
 	</tr>
 	<tr>
-		<td>聯絡電話1 (Home Phone):</td>
-		<td><%= @trial.contact.phone_home %></td>
-		<td>聯絡電話2 (Work Phone):</td>
-		<td><%= @trial.contact.phone_work %></td>
+		<td class="left">聯絡電話1 (Home Phone):</td>
+		<td class="right"><%= @trial.contact.phone_home %></td>
+		<td class="left">聯絡電話2 (Work Phone):</td>
+		<td class="right"><%= @trial.contact.phone_work %></td>
 	</tr>
 	<tr>
-		<td>聯絡電話3 (Other Phone)</td>
-		<td><%= @trial.contact.phone_other %></td>
-		<td>學校/單位 (School/Org):</td>
-		<td><%= @trial.account.name %></td>
+		<td class="left">聯絡電話3 (Other Phone)</td>
+		<td class="right"><%= @trial.contact.phone_other %></td>
+		<td class="left">學校/單位 (School/Org):</td>
+		<td class="right"><%= @trial.account.name %></td>
 	</tr>
 	<tr>
-		<td>系所/部門 (Department):</td>
-		<td><%= @trial.contact.department %></td>
-		<td>職稱 (Title):</td>
-		<td><%= @trial.contact.title %></td>
+		<td class="left">系所/部門 (Department):</td>
+		<td class="right"><%= @trial.contact.department %></td>
+		<td class="left">職稱 (Title):</td>
+		<td class="right"><%= @trial.contact.title %></td>
 	</tr>
 	<tr>
-		<td>Project ID:</td>
-		<td><%= @trial.eproject.name %></td>
-		<td></td>
-		<td></td>
+		<td class="left">Project ID:</td>
+		<td class="right"><%= @trial.eproject.name %></td>
+		<td class="left"></td>
+		<td class="right"></td>
 	</tr>
 	<tr>
-		<td colspan=2>得知管道 (Where did you hear about us?):</td>
-		<td colspan=2><%= @trial.contact.lead_source %></td>
+		<td class="left" colspan=2>得知管道 (Where did you hear about us?):</td>
+		<td class="right" colspan=2><%= @trial.contact.lead_source %></td>
 	</tr>
 	<tr>
 		<td class="header" colspan=4>文件附檔: 請附上文件檔，單檔不可超過3MB，請勿使用中文檔名，如檔案超過3MB，請將文件直接寄到editing@novaismed.com。</td>
 	</tr>
 	<% @trial.documents.each do |d| %>
 	<tr>
-		<td>Document Name</td>
-		<td><%= d.document_name %></td>
-		<td></td>
-		<td></td>
+		<td class="left">Document Name</td>
+		<td class="right"><%= d.document_name %></td>
+		<td class="left"></td>
+		<td class="right"></td>
 	</tr>
 	<% end %>
 </table>

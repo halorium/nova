@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag "trial" %>
+
 <%= form_for(@trial) do |t| %>
   <% if @trial.errors.any? %>
     <div id="error_explanation">
@@ -10,81 +12,87 @@
     </div>
   <% end %>
 
-<p>Account</p>
-  <div class="field">
+<p id="notice"><%= notice %></p>
+
+<table class="show">
+	<tr>
+		<td class="header" colspan=4>個人資訊: 此區皆為必填欄位 (Personal Information)</td>
+	</tr>
 	<%= fields_for @account do |a| %>
-    <%= a.label "學校/單位 (School/Org)" %>
-    <%= a.text_field :name %><br />
-
-    <%= a.hidden_field :internal_type_c, :value => 'Editing' %><br />
+	<tr>
+		<td class="left"><%= a.label "學校/單位 (School/Org)" %></td>
+		<td class="right"><%= a.text_field :name %></td>
+		<td class="left"></td>
+		<td class="right"></td>
+	</tr>
+	<%= a.hidden_field :internal_type_c, :value => 'Editing' %>
 	<% end %>
-  </div>
-
-<p>Contact</p>
-  <div class="field">
 	<%= fields_for @contact do |c| %>
-
-	<%= c.label :salutation %>
-    <%= c.select :salutation, options_for_select(@salutation) %><br />
-
-	<%= c.label "英文名字 (Eng Last name)" %>
-    <%= c.text_field :last_name %><br />
-
-    <%= c.label "完整中文名稱 (Ch name)" %>
-    <%= c.text_field :cntc_chinese_name_c  %><br />
-
-	<%= c.label "電子信箱 (Email)" %>
-	<%= c.text_field :email1 %><br />
-
-	<%= c.label "聯絡手機 (Mobile phone) " %>
-	<%= c.text_field :phone_mobile %><br />
-
-	<%= c.label "聯絡電話1 (Home Phone)" %>
-	<%= c.text_field :phone_home %><br />
-
-	<%= c.label "聯絡電話2 (Work Phone)" %>
-	<%= c.text_field :phone_work %><br />
-
-	<%= c.label "聯絡電話3 (Other Phone)" %>
-	<%= c.text_field :phone_other %><br />
-
-	<%= c.label "系所/部門 (Department)" %>
-	<%= c.text_field :department %><br />
-
-	<%= c.label "職稱 (Title)" %>
-	<%= c.select :title, options_for_select(["教授 (Professor)",
-	                    "副教授 (Associate Professor)",
-	                    "助理教授 (Assistant Professor)",
-	                    "講師 (Lecturer)",
-	                    "博士/博士生 (Doctor or PhD Student)",
-	                    "碩士/碩士生 (Master/Master's Student)",
-	                    "其他 (Other)"]) %><br />
-
-	<%= c.label "得知管道 (Where did you hear about us?)" %>
-	<%= c.select :lead_source, options_for_select(@lead_source) %><br />
-
+	<tr>
+		<td class="left"><%= c.label :salutation %></td>
+		<td class="right"><%= c.select :salutation, options_for_select(@salutation) %></td>
+		<td class="left"><%= c.label "英文名字 (Eng Last name)" %></td>
+	    <td class="right"><%= c.text_field :last_name %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= c.label "完整中文名稱 (Ch name)" %></td>
+	    <td class="right"><%= c.text_field :cntc_chinese_name_c  %></td>
+		<td class="left"><%= c.label "電子信箱 (Email)" %></td>
+		<td class="right"><%= c.text_field :email1 %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= c.label "聯絡手機 (Mobile phone)" %></td>
+		<td class="right"><%= c.text_field :phone_mobile %></td>
+		<td class="left"><%= c.label "聯絡電話2 (Work Phone)" %></td>
+		<td class="right"><%= c.text_field :phone_work %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= c.label "聯絡電話1 (Home Phone)" %></td>
+		<td class="right"><%= c.text_field :phone_home %></td>
+		<td class="left"><%= c.label "聯絡電話3 (Other Phone)" %></td>
+		<td class="right"><%= c.text_field :phone_other %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= c.label "系所/部門 (Department)" %></td>
+		<td class="right"><%= c.text_field :department %></td>
+		<td class="left"><%= c.label "職稱 (Title)" %></td>
+		<td class="right"><%= c.select :title, options_for_select(["教授 (Professor)",
+		                    "副教授 (Associate Professor)",
+		                    "助理教授 (Assistant Professor)",
+		                    "講師 (Lecturer)",
+		                    "博士/博士生 (Doctor or PhD Student)",
+		                    "碩士/碩士生 (Master/Master's Student)",
+		                    "其他 (Other)"]) %></td>
+	</tr>
+	<tr>
+		<td class="left" colspan=2><%= c.label "得知管道 (Where did you hear about us?)" %></td>
+		<td class="right" colspan=2><%= c.select :lead_source, options_for_select(@lead_source) %></td>
+	</tr>
 	<% end %>
-  </div>
+	<tr>
+		<td class="header" colspan=4>文件附檔: 請附上文件檔，單檔不可超過3MB，請勿使用中文檔名，如檔案超過3MB，請將文件直接寄到editing@novaismed.com。Document Attachment: Please upload your file. Please do not use Chinese file names. If the file exceeds 3MB, please send your file to editing@novaismed.com</td>
+	</tr>
+	<tr>
+		<td class="left"><%= t.label "(Document 1)" %></td>
+		<td class="right" colspan=3><%= t.file_field :file1 %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= t.label "(Document 2)" %></td>
+		<td class="right" colspan=3><%= t.file_field :file2 %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= t.label "(Document 3)" %></td>
+		<td class="right" colspan=3><%= t.file_field :file3 %></td>
+	</tr>
+</table>
 
-
-  <p>Documents</p>
-  <div class="field">
-	
-    <%= t.label "(Document 1)" %>
-    <%= t.file_field :file1 %><br />
-    <%= t.label "(Document 2)" %>
-    <%= t.file_field :file2 %><br />
-    <%= t.label "(Document 3)" %>
-    <%= t.file_field :file3 %><br />
-
-  </div>
-
-  <p>Captcha</p>
-  <div class="captcha">
+<div class="captcha">
 	<%= recaptcha_tags %>
-  </div>
-
-  <div class="actions">
-    <%= t.submit %>
-  </div>
+</div>
+<div class="terms">
+	<p>按下送出後表示同意本公司所提供之服務與資訊，若需報價本公司會在收到顧客的確認信後才會開始進行。Clicking send means that you agree to the services and information provided by NOVA. If a quotation is needed, we will begin processing only after we have received a confirmation mail from you.</p>
+</div>
+<div class="actions">
+    <%= t.submit "Submit Trial" %>
+</div>
 <% end %>
