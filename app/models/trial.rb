@@ -36,7 +36,7 @@ class Trial
   def save
     @account.save
     @contact.save
-    
+ 
     @account.associate! @contact
     
     @eproject.save
@@ -44,7 +44,7 @@ class Trial
     @eproject.associate! @contact
     @eproject.associate! @account
     
-    @save_documents
+    save_documents
 
     @persisted = true
 

@@ -28,10 +28,9 @@ class TrialsController < ApplicationController
     @contact = Contact.new(params[:contact])
     
     # Create the Editing Project
-    @eproject = Eproject.new(
-                  :autoid => Eproject.last.autoid.next,
-                  :name   => "TR-#{Eproject.last.autoid.next}",
-                  :status => "Editing")
+    @eproject = Eproject.new(:autoid => Eproject.last.autoid.next,
+                             :name   => "TR-#{Eproject.last.autoid.next}",
+                             :status => "Editing")
 
     @files = create_files
 
