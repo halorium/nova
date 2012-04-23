@@ -38,11 +38,11 @@ class TrialsController < ApplicationController
 
     @trial = Trial.new.setup @account, @contact, @documents, @eproject, @files
     
-    # Check recaptcha
-    unless verify_recaptcha
-      #captcha is invalid
-      @trial.errors.merge!({ 'Captcha' => ["invalid."] })
-    end
+    # # Check recaptcha
+    #     unless verify_recaptcha
+    #       #captcha is invalid
+    #       @trial.errors.merge!({ 'Captcha' => ["invalid."] })
+    #     end
 
     # If any errors, return to form
     if @trial.valid?
